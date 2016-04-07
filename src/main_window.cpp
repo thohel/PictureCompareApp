@@ -28,7 +28,6 @@ MainWindow::MainWindow(int argc, char** argv, QWidget *parent)
     setWindowIcon(QIcon(":/images/icon.png"));
     QObject::connect(&qnode, SIGNAL(rosShutdown()), this, SLOT(close()));
 
-    ui.button_comp_diff->setEnabled(false);
     ui.button_set_test_image->setEnabled(false);
     rest_counter = 0;
     test_img_counter = 0;
@@ -295,19 +294,12 @@ void MainWindow::on_button_set_ref_image_clicked(bool check)
 
 void MainWindow::on_button_set_test_image_clicked(bool check)
 {
-    ui.button_comp_diff->setEnabled(true);
     let_pic_rest = true;
     cv::Mat img = get_image();
     test = img.clone();
     save_picture(img, test_img_counter, false, false);
-    swap_image(img);
     test_img_counter++;
-}
-
-void MainWindow::on_button_comp_diff_clicked(bool check)
-{
-    let_pic_rest = true;
-    cv::Mat img = process_image_set(reference, test);
+    img = process_image_set(reference, test);
     save_picture(img, test_img_counter, false, true);
     swap_image(img);
 }
@@ -333,10 +325,8 @@ cv::Mat MainWindow::get_image()
 
 void MainWindow::swap_image(cv::Mat image)
 {
-    std::cout << "Converting a new frame" << std::endl;
     QImage toShow = mat2qimage(image);
     QPixmap pixMap = QPixmap::fromImage(toShow);
-    std::cout << "Showing the new frame" << std::endl;
     ui.imageLabel->setPixmap(pixMap);
 }
 

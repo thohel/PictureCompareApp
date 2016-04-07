@@ -31,7 +31,6 @@ public:
 public Q_SLOTS:
     void on_button_set_ref_image_clicked(bool check);
     void on_button_set_test_image_clicked(bool check);
-    void on_button_comp_diff_clicked(bool check);
     void on_button_folder_select_3_clicked(bool check);
     void updateView();
 
